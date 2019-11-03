@@ -1,6 +1,6 @@
 {
 	"name": "list-to-in-query",
-	"displayName": "list-to-in-query",
+	"displayName": "List to SQL IN Query (...) builder",
 	"description": "Convert a list of strings to an SQL IN query clause",
 	"version": "1.0.0",
 	"engines": {
