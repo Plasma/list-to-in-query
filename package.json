@@ -25,7 +25,22 @@
 				"command": "extension.list-to-in-query",
 				"title": "Convert new lines into SQL IN Query ('Line 1', 'Line 2', ...)"
 			}
-		]
+		],
+		"configuration": {
+			"title": "List to SQL In Query (...) builder",
+			"properties": {
+				"list-to-in-query-builder.joinValuesUsingNewLine": {
+					"type": "boolean",
+					"default": true,
+					"description": "Place each value written in the IN Query (...) on its own line."
+				},
+				"list-to-in-query-builder.quoteNumbers": {
+					"type": "boolean",
+					"default": false,
+					"description": "Quote numeric values when building the IN Query (...)."
+				}
+			}
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",

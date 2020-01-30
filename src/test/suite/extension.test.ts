@@ -14,7 +14,7 @@ suite('Extension Test Suite', () => {
 		const builder = new InQueryBuilder();
 
 		// Act
-		const result = builder.getQuery("");
+		const result = builder.getQuery("", true, true);
 
 		// Assert
 		assert.equal("", result);
@@ -25,20 +25,42 @@ suite('Extension Test Suite', () => {
 		const builder = new InQueryBuilder();
 
 		// Act
-		const result = builder.getQuery("One");
+		const result = builder.getQuery("One", true, true);
 
 		// Assert
 		assert.equal("(\n\t'One'\n)", result);
 	});
 
-	test('Can build multi item query', () => {
+	test('Can build multi item query - join with new line and comma', () => {
 		// Arrange
 		const builder = new InQueryBuilder();
 
 		// Act
-		const result = builder.getQuery("One\r\nTwo\nThree");
+		const result = builder.getQuery("One\r\nTwo\nThree", true, true);
 
 		// Assert
 		assert.equal("(\n\t'One',\n\t'Two',\n\t'Three'\n)", result);
+	});
+
+	test('Can build multi item query - join with comma only', () => {
+		// Arrange
+		const builder = new InQueryBuilder();
+
+		// Act
+		const result = builder.getQuery("One\r\nTwo\nThree", false, true);
+
+		// Assert
+		assert.equal("('One', 'Two', 'Three')", result);
+	});
+
+	test('Can build multi item query - do not quote numbers', () => {
+		// Arrange
+		const builder = new InQueryBuilder();
+
+		// Act
+		const result = builder.getQuery("One\r\n2\n3.5\nFour", false, false);
+
+		// Assert
+		assert.equal("('One', 2, 3.5, 'Four')", result);
 	});
 });

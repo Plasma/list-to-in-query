@@ -1,3 +1,5 @@
+import { isNumber } from "util";
+
 /***
  * Query builder that can take a new line separated list of strings
  * and return an SQL IN query template expression
@@ -7,7 +9,7 @@ export default class InQueryBuilder {
      * A new line separated list of strings to build an expression for
      * @param text The text to parse
      */
-    public getQuery(text: string): string  {
+    public getQuery(text: string, joinUsingNewLine: boolean, quoteNumbers: boolean): string  {
         // Parse as lines
         let lines = this.getLines(text);
 
@@ -16,9 +18,36 @@ export default class InQueryBuilder {
             return '';
         }
 
+        // Build values to join
+        let valuestoJoin = [];
+        for(let i = 0; i < lines.length; i++) {
+            const line : any = lines[i].trim();
+
+            // Parse value
+            let parsedValue;
+            if (!quoteNumbers && !isNaN(line)) {
+                parsedValue = line;
+            } else {
+                parsedValue = "'" + line + "'";
+            }
+
+            valuestoJoin.push(parsedValue);
+        }
+
         // Build IN expression
-        const expression = lines.map(x => "\t'" + x + "'").join(",\n");
-        return "(\n" + expression + "\n)";
+        let expression;
+        if (joinUsingNewLine) {
+            expression = valuestoJoin.map(x => "\t" + x).join(",\n");
+        } else {
+            expression = valuestoJoin.join(", ");
+        }
+
+        // Return based on newLine join or not
+        if (joinUsingNewLine) {
+            return "(\n" + expression + "\n)";
+        } else {
+            return "(" + expression + ")";
+        }
     }
 
     /**

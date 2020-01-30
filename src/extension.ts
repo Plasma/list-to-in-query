@@ -25,9 +25,12 @@ export function activate(context: vscode.ExtensionContext) {
 			// Get selected text
 			let text = document.getText(selection);
 
+			// Load settings
+			const settings = vscode.workspace.getConfiguration('list-to-in-query-builder');
+
 			// Create parser
 			let parser = new InQueryBuilder();
-			let result = parser.getQuery(text);
+			let result = parser.getQuery(text, settings.joinValuesUsingNewLine, settings.quoteNumbers);
 
 			// Write result
 			editor.edit(editBuilder => {
