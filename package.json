@@ -4,7 +4,7 @@
 	"displayName": "List to SQL IN Query (...) builder",
 	"publisher": "phplasma",
 	"description": "Convert a list of strings to an SQL IN query clause",
-	"version": "1.1.0",
+	"version": "1.2.0",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/Plasma/list-to-in-query.git"
