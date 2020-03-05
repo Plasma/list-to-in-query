@@ -9,7 +9,7 @@ export default class InQueryBuilder {
      * A new line separated list of strings to build an expression for
      * @param text The text to parse
      */
-    public getQuery(text: string, joinUsingNewLine: boolean, quoteNumbers: boolean): string  {
+    public getQuery(text: string, joinUsingNewLine: boolean, quoteNumbers: boolean, indentTextBy: string): string  {
         // Parse as lines
         let lines = this.getLines(text);
 
@@ -37,7 +37,7 @@ export default class InQueryBuilder {
         // Build IN expression
         let expression;
         if (joinUsingNewLine) {
-            expression = valuestoJoin.map(x => "\t" + x).join(",\n");
+            expression = valuestoJoin.map(x => indentTextBy + x).join(",\n");
         } else {
             expression = valuestoJoin.join(", ");
         }

@@ -27,10 +27,17 @@ export function activate(context: vscode.ExtensionContext) {
 
 			// Load settings
 			const settings = vscode.workspace.getConfiguration('list-to-in-query-builder');
+			let indentTextBy: string;
+			if (settings.indentUsingTabs) {
+				indentTextBy = "\t";
+			 } else {
+				const tabSizeInSpaces = vscode.workspace.getConfiguration("editor").tabSize;
+				indentTextBy = ' '.repeat(tabSizeInSpaces);
+			}
 
 			// Create parser
 			let parser = new InQueryBuilder();
-			let result = parser.getQuery(text, settings.joinValuesUsingNewLine, settings.quoteNumbers);
+			let result = parser.getQuery(text, settings.joinValuesUsingNewLine, settings.quoteNumbers, indentTextBy);
 
 			// Write result
 			editor.edit(editBuilder => {

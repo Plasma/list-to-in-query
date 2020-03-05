@@ -8,16 +8,28 @@ import * as vscode from 'vscode';
 
 suite('Extension Test Suite', () => {
 	vscode.window.showInformationMessage('Start all tests.');
+	const DefaultIndent = "\t";
 
 	test('Empty result is blank', () => {
 		// Arrange
 		const builder = new InQueryBuilder();
 
 		// Act
-		const result = builder.getQuery("", true, true);
+		const result = builder.getQuery("", true, true, DefaultIndent);
 
 		// Assert
 		assert.equal("", result);
+	});
+
+	test('Can use custom indention text', () => {
+		// Arrange
+		const builder = new InQueryBuilder();
+
+		// Act
+		const result = builder.getQuery("One\r\nTwo\nThree", true, true, '-');
+
+		// Assert
+		assert.equal("(\n-'One',\n-'Two',\n-'Three'\n)", result);
 	});
 
 	test('Can build single item query', () => {
@@ -25,7 +37,7 @@ suite('Extension Test Suite', () => {
 		const builder = new InQueryBuilder();
 
 		// Act
-		const result = builder.getQuery("One", true, true);
+		const result = builder.getQuery("One", true, true, DefaultIndent);
 
 		// Assert
 		assert.equal("(\n\t'One'\n)", result);
@@ -36,7 +48,7 @@ suite('Extension Test Suite', () => {
 		const builder = new InQueryBuilder();
 
 		// Act
-		const result = builder.getQuery("One\r\nTwo\nThree", true, true);
+		const result = builder.getQuery("One\r\nTwo\nThree", true, true, DefaultIndent);
 
 		// Assert
 		assert.equal("(\n\t'One',\n\t'Two',\n\t'Three'\n)", result);
@@ -47,7 +59,7 @@ suite('Extension Test Suite', () => {
 		const builder = new InQueryBuilder();
 
 		// Act
-		const result = builder.getQuery("One\r\nTwo\nThree", false, true);
+		const result = builder.getQuery("One\r\nTwo\nThree", false, true, DefaultIndent);
 
 		// Assert
 		assert.equal("('One', 'Two', 'Three')", result);
@@ -58,7 +70,7 @@ suite('Extension Test Suite', () => {
 		const builder = new InQueryBuilder();
 
 		// Act
-		const result = builder.getQuery("One\r\n2\n3.5\nFour", false, false);
+		const result = builder.getQuery("One\r\n2\n3.5\nFour", false, false, DefaultIndent);
 
 		// Assert
 		assert.equal("('One', 2, 3.5, 'Four')", result);

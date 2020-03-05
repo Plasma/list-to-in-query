@@ -34,6 +34,11 @@
 					"default": true,
 					"description": "Place each value written in the IN Query (...) on its own line."
 				},
+				"list-to-in-query-builder.indentUsingTabs": {
+					"type": "boolean",
+					"default": true,
+					"description": "When placing each value on its own line, whether we indent using tabs (checked) or spaces."
+				},
 				"list-to-in-query-builder.quoteNumbers": {
 					"type": "boolean",
 					"default": false,
