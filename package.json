@@ -16,24 +16,24 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.list-to-in-query"
+		"onCommand:extension.list-to-in-query.same-line",
+		"onCommand:extension.list-to-in-query.new-line"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.list-to-in-query",
-				"title": "Convert new lines into SQL IN Query ('Line 1', 'Line 2', ...)"
+				"command": "extension.list-to-in-query.same-line",
+				"title": "Convert new lines into SQL IN Query: Written as one line ('Line 1', 'Line 2', ...)"
+			},
+			{
+				"command": "extension.list-to-in-query.new-line",
+				"title": "Convert new lines into SQL IN Query: Separate by new lines ('Line 1', \\n'Line 2', \\n...)"
 			}
 		],
 		"configuration": {
 			"title": "List to SQL In Query (...) builder",
 			"properties": {
-				"list-to-in-query-builder.joinValuesUsingNewLine": {
-					"type": "boolean",
-					"default": true,
-					"description": "Place each value written in the IN Query (...) on its own line."
-				},
 				"list-to-in-query-builder.indentUsingTabs": {
 					"type": "boolean",
 					"default": true,

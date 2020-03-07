@@ -9,7 +9,7 @@ export function activate(context: vscode.ExtensionContext) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('extension.list-to-in-query', () => {
+	let listToInQueryFunc = (joinValuesUsingNewLine: boolean) => {
 		// Get the active text editor
 		let editor = vscode.window.activeTextEditor;
 
@@ -37,19 +37,18 @@ export function activate(context: vscode.ExtensionContext) {
 
 			// Create parser
 			let parser = new InQueryBuilder();
-			let result = parser.getQuery(text, settings.joinValuesUsingNewLine, settings.quoteNumbers, indentTextBy);
+			let result = parser.getQuery(text, joinValuesUsingNewLine, settings.quoteNumbers, indentTextBy);
 
 			// Write result
 			editor.edit(editBuilder => {
 				editBuilder.replace(selection, result);
 			});
 		}
+	};
 
-
-
-	});
-
-	context.subscriptions.push(disposable);
+	// Register commands
+	context.subscriptions.push(vscode.commands.registerCommand('extension.list-to-in-query.same-line', () => listToInQueryFunc(false)));
+	context.subscriptions.push(vscode.commands.registerCommand('extension.list-to-in-query.new-line', () => listToInQueryFunc(true)));
 }
 
 // this method is called when your extension is deactivated
